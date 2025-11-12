@@ -6,16 +6,17 @@
 namespace esphome {
 namespace m5stack_fan {
 
+// Register definitions from M5Stack Fan Module v1.1
+static const uint8_t FAN_CONTROL_REG = 0x00;        // Enable/disable fan
+static const uint8_t FAN_PWM_DUTY_CYCLE_REG = 0x20; // PWM duty cycle (0-100%)
+static const uint8_t FAN_RPM_REG = 0x30;            // RPM reading (2 bytes)
+
 class M5StackFan : public Component, public i2c::I2CDevice {
  public:
   void setup() override;
   void dump_config() override;
-  float get_setup_priority() const override { return setup_priority::DATA; }
-
-  // Set fan speed (0-100%)
-  bool set_speed(uint8_t speed);
   
-  // Get current fan speed
+  void set_speed(uint8_t speed);
   uint8_t get_speed();
 
  protected:
