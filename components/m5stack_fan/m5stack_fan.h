@@ -8,6 +8,7 @@ namespace m5stack_fan {
 
 // Register definitions from M5Stack Fan Module v1.1
 static const uint8_t FAN_CONTROL_REG = 0x00;        // Enable/disable fan
+static const uint8_t FAN_PWM_FREQUENCY_REG = 0x10;  // PWM frequency (0=1kHz, 1=12kHz, 2=24kHz, 3=48kHz)
 static const uint8_t FAN_PWM_DUTY_CYCLE_REG = 0x20; // PWM duty cycle (0-100%)
 static const uint8_t FAN_RPM_REG = 0x30;            // RPM reading (2 bytes)
 

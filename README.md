@@ -15,10 +15,22 @@ The M5Stack Fan Module v1.1 uses a STM32F0 microcontroller at I2C address `0x18`
 
 **Register Map:**
 - `0x00`: Control register (0=disable, 1=enable)
+- `0x10`: PWM frequency (0=1kHz, 1=12kHz, 2=24kHz, 3=48kHz)
 - `0x20`: PWM duty cycle (0-100%)
 - `0x30`: RPM reading (2 bytes, read-only)
 
-The fan speed is controlled by writing the duty cycle percentage (0-100) to register `0x20`. The fan must be enabled first by writing 1 to register `0x00`.
+The fan is controlled by first setting the PWM frequency (register `0x10`), then enabling the fan (register `0x00`), and finally setting the speed via duty cycle (register `0x20`).
+
+### Power Requirements
+
+**IMPORTANT:** The fan module requires **5V power** to operate the motor. While I2C communication works at 3.3V, the fan motor itself needs 5V supplied via the M5-Bus connector (pin 28).
+
+**Operating Specifications:**
+- Operating Voltage: 5V
+- Power Consumption: 13.52mA @ 20% PWM, up to 125.14mA @ 100% PWM
+- Standby Power: 503.49µA
+
+Ensure your M5Stack device provides adequate 5V power output. When powered only by USB without external power supply, the fan may not operate due to insufficient current capacity, even though I2C communication will work normally.
 
 **Documentation:** https://docs.m5stack.com/en/module/Module%20Fan%20v1.1
 

@@ -9,14 +9,19 @@ static const char *const TAG = "m5stack_fan";
 void M5StackFan::setup() {
   ESP_LOGCONFIG(TAG, "Setting up M5Stack Fan Module...");
   
+  // Set PWM frequency to 48kHz (value 3)
+  if (!this->write_byte(FAN_PWM_FREQUENCY_REG, 3)) {
+    ESP_LOGE(TAG, "Failed to set PWM frequency");
+    this->mark_failed();
+    return;
+  }
+  
   // Enable the fan (write 1 to control register)
-  ESP_LOGD(TAG, "Enabling fan (write 0x01 to register 0x%02X)...", FAN_CONTROL_REG);
   if (!this->write_byte(FAN_CONTROL_REG, 1)) {
     ESP_LOGE(TAG, "Failed to enable fan module");
     this->mark_failed();
     return;
   }
-  ESP_LOGD(TAG, "Fan enabled successfully");
   
   // Initialize fan to 0% speed
   if (!this->set_speed(0)) {
@@ -44,14 +49,13 @@ bool M5StackFan::set_speed(uint8_t speed) {
   }
   
   // Write speed value to PWM duty cycle register (0x20)
-  ESP_LOGD(TAG, "Writing speed %d%% to register 0x%02X", speed, FAN_PWM_DUTY_CYCLE_REG);
   if (!this->write_byte(FAN_PWM_DUTY_CYCLE_REG, speed)) {
     ESP_LOGW(TAG, "Failed to write speed to fan module");
     return false;
   }
   
   this->current_speed_ = speed;
-  ESP_LOGD(TAG, "Fan speed set to %d%% successfully", speed);
+  ESP_LOGD(TAG, "Set fan speed to %d%%", speed);
   return true;
 }
 
@@ -59,13 +63,11 @@ uint8_t M5StackFan::get_speed() {
   uint8_t speed = 0;
   
   // Read current speed from PWM duty cycle register (0x20)
-  ESP_LOGV(TAG, "Reading speed from register 0x%02X", FAN_PWM_DUTY_CYCLE_REG);
   if (!this->read_byte(FAN_PWM_DUTY_CYCLE_REG, &speed)) {
     ESP_LOGW(TAG, "Failed to read speed from fan module");
     return this->current_speed_;  // Return cached value on error
   }
   
-  ESP_LOGV(TAG, "Read speed: %d%%", speed);
   this->current_speed_ = speed;
   return speed;
 }
