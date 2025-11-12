@@ -16,7 +16,7 @@ class M5StackFan : public Component, public i2c::I2CDevice {
   void setup() override;
   void dump_config() override;
   
-  void set_speed(uint8_t speed);
+  bool set_speed(uint8_t speed);
   uint8_t get_speed();
 
  protected:
