@@ -9,13 +9,6 @@ static const char *const TAG = "m5stack_fan";
 void M5StackFan::setup() {
   ESP_LOGCONFIG(TAG, "Setting up M5Stack Fan Module...");
   
-  // Read current status to see what we're starting with
-  uint8_t status = 0, freq = 0, duty = 0;
-  this->read_byte(FAN_CONTROL_REG, &status);
-  this->read_byte(FAN_PWM_FREQUENCY_REG, &freq);
-  this->read_byte(FAN_PWM_DUTY_CYCLE_REG, &duty);
-  ESP_LOGD(TAG, "Initial state: status=%d, freq=%d, duty=%d", status, freq, duty);
-  
   // Set PWM frequency to 48kHz (value 3)
   if (!this->write_byte(FAN_PWM_FREQUENCY_REG, 3)) {
     ESP_LOGE(TAG, "Failed to set PWM frequency");
@@ -36,12 +29,6 @@ void M5StackFan::setup() {
     this->mark_failed();
     return;
   }
-  
-  // Read back to verify
-  this->read_byte(FAN_CONTROL_REG, &status);
-  this->read_byte(FAN_PWM_FREQUENCY_REG, &freq);
-  this->read_byte(FAN_PWM_DUTY_CYCLE_REG, &duty);
-  ESP_LOGD(TAG, "After setup: status=%d, freq=%d, duty=%d", status, freq, duty);
   
   ESP_LOGCONFIG(TAG, "M5Stack Fan Module initialized successfully");
 }

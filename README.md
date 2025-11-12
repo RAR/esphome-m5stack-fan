@@ -30,7 +30,13 @@ The fan is controlled by first setting the PWM frequency (register `0x10`), then
 - Power Consumption: 13.52mA @ 20% PWM, up to 125.14mA @ 100% PWM
 - Standby Power: 503.49µA
 
-Ensure your M5Stack device provides adequate 5V power output. When powered only by USB without external power supply, the fan may not operate due to insufficient current capacity, even though I2C communication will work normally.
+**Power Supply Recommendations:**
+- Use a proper 5V/2A power adapter (not just USB from computer)
+- USB power from computers may not provide sufficient current for the motor
+- The I2C communication will work even without adequate motor power, but the fan will not spin
+- If using M5Stack Core2 with USB power only, the fan may not spin due to insufficient current
+
+Ensure your M5Stack device provides adequate 5V power output to the M5-Bus connector.
 
 **Documentation:** https://docs.m5stack.com/en/module/Module%20Fan%20v1.1
 
