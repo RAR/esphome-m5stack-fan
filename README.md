@@ -11,7 +11,7 @@ ESPHome component for the M5Stack Fan Module v1.1 (SKU: M017-A).
 
 ## Hardware
 
-The M5Stack Fan Module v1.1 uses a STM32F0 microcontroller at I2C address `0x88`. The fan speed is controlled by writing a single byte (0-100) to register `0x00`, and the current speed can be read from the same register.
+The M5Stack Fan Module v1.1 uses a STM32F0 microcontroller at I2C address `0x18`. The fan speed is controlled by writing a single byte (0-100) to register `0x00`, and the current speed can be read from the same register.
 
 **Documentation:** https://docs.m5stack.com/en/module/Module%20Fan%20v1.1
 
