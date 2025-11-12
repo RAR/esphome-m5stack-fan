@@ -1,0 +1,49 @@
+esphome:
+  name: m5stack-fan-example
+  platform: ESP32
+  board: m5stack-core2
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  password: "your-ota-password"
+
+wifi:
+  ssid: "your-ssid"
+  password: "your-wifi-password"
+  
+  # Enable fallback hotspot
+  ap:
+    ssid: "M5Stack-Fan"
+    password: "fallback-password"
+
+captive_portal:
+
+# I2C configuration (M5Stack Core2/CoreS3 pins)
+i2c:
+  sda: 32
+  scl: 33
+  scan: true
+
+# M5Stack Fan Module component
+m5stack_fan:
+  id: my_fan
+
+# Number entity for fan speed control (0-100%)
+number:
+  - platform: m5stack_fan
+    m5stack_fan_id: my_fan
+    name: "Fan Speed"
+    id: fan_speed_control
+
+# Sensor for fan speed readback
+sensor:
+  - platform: m5stack_fan
+    m5stack_fan_id: my_fan
+    update_interval: 10s
+    speed:
+      name: "Fan Speed Readback"
